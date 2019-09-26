@@ -67,7 +67,9 @@ function liriSearch() {
                         }
                     ])
                     .then(function (inquirerResponse) {
-                        movieThis(inquirerResponse.moviechoice);
+                        var movieChoiceArr = inquirerResponse.moviechoice.split(" ");
+                        var movieToSearch = movieChoiceArr.join("+");
+                        movieThis(movieToSearch);
                     });
             }
         });
