@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/hagoodj/liri-node-app/issues"
   },
-  "homepage": "https://github.com/hagoodj/liri-node-app#readme"
+  "homepage": "https://github.com/hagoodj/liri-node-app#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "inquirer": "^7.0.0"
+  }
 }
