@@ -61,6 +61,9 @@ function concertThis(concert) {
                 for (var i = 0; i < response.data.length; i++) {
                     console.log("\nVenue: " + response.data[i].venue.name + "\n");
                     console.log("Location: " + response.data[i].venue.city + ", " + response.data[i].country + "\n");
+                    var dateString = response.data[i].datetime.substring(0,10);
+                    var momentDate = moment(dateString).format("MM/DD/YYYY");
+                    console.log("Date: " + momentDate + "\n")
                 }
             }
         })
