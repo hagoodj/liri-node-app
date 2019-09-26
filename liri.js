@@ -6,7 +6,7 @@ var keys = require("./keys.js");
 var axios = require("axios");
 // var fs = require('fs');
 var inquirer = require('inquirer');
-// var moment = require("moment");
+var moment = require("moment");
 
 // var spotify = new Spotify(keys.spotify);
 
@@ -29,6 +29,39 @@ function movieThis(movie) {
             } else {
                 movieThis("Mr.+Nobody")
                 searchSomethingElse()
+            }
+        })
+        .catch(function (error) {
+            if (error.response) {
+                console.log("---------------Data---------------");
+                console.log(error.response.data);
+                console.log("---------------Status---------------");
+                console.log(error.response.status);
+                console.log("---------------Status---------------");
+                console.log(error.response.headers);
+            } else if (error.request) {
+                console.log(error.request);
+            } else {
+                console.log("Error", error.message);
+            }
+            console.log(error.config);
+        });
+}
+
+function concertThis(concert) {
+    var concertSelected = concert;
+    var queryURL = "https://rest.bandsintown.com/artists/" + concertSelected + "/events?app_id=codingbootcamp"
+    console.log(queryURL);
+    axios.get(queryURL).then(
+        function (response) {
+            if (response.data.length === 0) {
+                console.log(concertSelected + " has no upcoming events.")
+                searchSomethingElse()
+            } else {
+                for (var i = 0; i < response.data.length; i++) {
+                    console.log("\nVenue: " + response.data[i].venue.name + "\n");
+                    console.log("Location: " + response.data[i].venue.city + ", " + response.data[i].country + "\n");
+                }
             }
         })
         .catch(function (error) {
@@ -74,7 +107,21 @@ function liriSearch() {
                         movieThis(movieToSearch);
                     });
             }
-
+            if (inquirerResponse.userchoice === "concert") {
+                inquirer
+                    .prompt([
+                        {
+                            type: 'input',
+                            message: 'What concert do you want Liri to search?',
+                            name: 'concertchoice'
+                        }
+                    ])
+                    .then(function (inquirerResponse) {
+                        var concertChoiceArr = inquirerResponse.concertchoice.split(" ");
+                        var concertToSearch = concertChoiceArr.join("+");
+                        concertThis(concertToSearch);
+                    });
+            }
         });
 
 }
@@ -89,7 +136,7 @@ function searchSomethingElse() {
                 default: true
             }
         ])
-        .then(function(inquirerResponse){
+        .then(function (inquirerResponse) {
             if (inquirerResponse.searchagain === true) {
                 liriSearch();
             }

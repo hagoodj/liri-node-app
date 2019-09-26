@@ -19,6 +19,7 @@
   "homepage": "https://github.com/hagoodj/liri-node-app#readme",
   "dependencies": {
     "axios": "^0.19.0",
-    "inquirer": "^7.0.0"
+    "inquirer": "^7.0.0",
+    "moment": "^2.24.0"
   }
 }
