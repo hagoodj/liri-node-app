@@ -25,8 +25,10 @@ function movieThis(movie) {
                 console.log("Language: " + response.data.Language + "\n");
                 console.log("Plot: " + response.data.Plot + "\n");
                 console.log("Actors: " + response.data.Actors + "\n");
+                searchSomethingElse()
             } else {
                 movieThis("Mr.+Nobody")
+                searchSomethingElse()
             }
         })
         .catch(function (error) {
@@ -72,8 +74,26 @@ function liriSearch() {
                         movieThis(movieToSearch);
                     });
             }
+
         });
 
+}
+
+function searchSomethingElse() {
+    inquirer
+        .prompt([
+            {
+                type: 'confirm',
+                message: 'Would you like to search for something else?',
+                name: 'searchagain',
+                default: true
+            }
+        ])
+        .then(function(inquirerResponse){
+            if (inquirerResponse.searchagain === true) {
+                liriSearch();
+            }
+        })
 }
 
 liriSearch();
