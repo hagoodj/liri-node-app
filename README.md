@@ -3,12 +3,9 @@
 ## Summary
 This is my liri node app. It functions to search for a movie, concert, or song the user inputs in the command window. It also returns a random movie, song, or concert if the user selects the random choice in the initial prompt.
 
-## Functionality Videos
-### Searching Movies
-![site](./)
-### Searching Concerts
-### Searching Songs
-### Randomized Search
+## Functionality Video
+![video](./liri-functionality.gif)
+
 
 ## Technologies Used 
 - HTML - Used to create elements on the DOM
@@ -25,4 +22,5 @@ var axios = require("axios");
 
 ## Author Links
 https://github.com/hagoodj
+
 https://www.linkedin.com/in/jordan-hagood/
