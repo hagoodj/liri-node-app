@@ -1,7 +1,7 @@
 {
   "name": "liri-node-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "This is my liri node app. It functions to search for a movie, concert, or song the user inputs in the command window. It also returns a random movie, song, or concert if the user selects the random choice in the initial prompt.",
   "main": "keys.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,8 +20,10 @@
   "dependencies": {
     "axios": "^0.19.0",
     "dotenv": "^8.1.0",
+    "fs": "0.0.1-security",
     "inquirer": "^7.0.0",
     "moment": "^2.24.0",
     "node-spotify-api": "^1.1.1"
-  }
+  },
+  "devDependencies": {}
 }

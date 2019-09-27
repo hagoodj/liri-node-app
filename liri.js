@@ -4,7 +4,7 @@ var keys = require("./keys.js");
 
 var Spotify = require('node-spotify-api');
 var axios = require("axios");
-// var fs = require('fs');
+var fs = require('fs');
 var inquirer = require('inquirer');
 var moment = require("moment");
 
@@ -13,7 +13,6 @@ var spotify = new Spotify(keys.spotify);
 function movieThis(movie) {
     var movieSelected = movie;
     var queryURL = "http://www.omdbapi.com/?t=" + movieSelected + "&y=&plot=short&apikey=trilogy"
-    console.log(queryURL);
     axios.get(queryURL).then(
         function (response) {
             if (response.data.Response === "True") {
@@ -51,20 +50,20 @@ function movieThis(movie) {
 function concertThis(concert) {
     var concertSelected = concert;
     var queryURL = "https://rest.bandsintown.com/artists/" + concertSelected + "/events?app_id=codingbootcamp"
-    console.log(queryURL);
     axios.get(queryURL).then(
         function (response) {
             if (response.data.length === 0) {
                 console.log("The artist you searched has no upcoming events.")
                 searchSomethingElse()
             } else {
-                for (var i = 0; i < response.data.length; i++) {
+                for (var i = 0; i < 10; i++) {
                     console.log("\nVenue: " + response.data[i].venue.name + "\n");
                     console.log("Location: " + response.data[i].venue.city + ", " + response.data[i].venue.country + "\n");
                     var dateString = response.data[i].datetime.substring(0, 10);
                     var momentDate = moment(dateString).format("MM/DD/YYYY");
                     console.log("Date: " + momentDate + "\n")
                 }
+                searchSomethingElse();
             }
         })
         .catch(function (error) {
@@ -96,7 +95,7 @@ function spotifyThis(song) {
             console.log('\nSong not found.')
             searchSomethingElse();
         }
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < 10; i++) {
             console.log("\nSong: " + songResponseData[i].name)
             console.log("\nAlbum: " + songResponseData[i].album.name)
             console.log("\nSpotify Page: " + songResponseData[i].external_urls.spotify + '\n')
@@ -165,8 +164,32 @@ function liriSearch() {
                         spotifyThis(songToSearch);
                     });
             }
-        });
+            if (inquirerResponse.userchoice === "random") {
+                fs.readFile('random.txt', "utf8", function (err, data) {
 
+                    if (err) {
+                        return console.log(err);
+                    } else {
+                        var textArray = data.split(",")
+                        var functionArray = [textArray[0], textArray[2], textArray[4]]
+                        var random = Math.floor(Math.random() * 3);
+                        var functionRandom = functionArray[random];
+                        if (functionRandom === 'spotify-this-song') {
+                            spotifyThis(textArray[1]);
+                            searchSomethingElse();
+                        }
+                        if (functionRandom === 'omdb-this-movie') {
+                            movieThis(textArray[3]);
+                            searchSomethingElse();
+                        }
+                        if (functionRandom === 'concert-this-artist') {
+                            concertThis(textArray[5]);
+                            searchSomethingElse();
+                        }
+                    }
+                });
+            }
+        });
 }
 
 function searchSomethingElse() {
